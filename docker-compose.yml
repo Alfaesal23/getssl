@@ -17,7 +17,7 @@ services:
         ipv4_address: 10.30.50.2
   challtestsrv:
     image: ghcr.io/letsencrypt/pebble-challtestsrv:latest
-    command: -defaultIPv6 "" -defaultIPv4 10.30.50.3 -dns01 ":53"
+    command: -defaultIPv6 "" -defaultIPv4 10.30.50.3 -dnsserver ":53"
     ports:
       - 8055:8055  # HTTP Management API
     networks:
