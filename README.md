@@ -190,6 +190,21 @@ For a more comprehensive installation (e.g. install also helper scripts)
 use the provided Makefile with each release tarball. Use the `install`
 target.
 
+If you install only the standalone `getssl` script to a location such as
+`/usr/local/bin/getssl`, the helper scripts under `dns_scripts/` and
+`other_scripts/` are not installed automatically. In that case, copy any
+helper scripts you need to a suitable location yourself, for example:
+
+```sh
+/usr/local/share/getssl/dns_scripts/
+```
+
+and reference that path in `DNS_ADD_COMMAND` / `DNS_DEL_COMMAND`.
+
+If you install `getssl` from the provided RPM/DEB packages or via the
+`make install` target, the helper scripts are installed alongside it under
+`/usr/share/getssl/dns_scripts/` and `other_scripts/`.
+
 You'll find the latest version in the git repository:
 
 ```sh
@@ -279,6 +294,26 @@ DNS_ADD_COMMAND=/home/root/getssl/dns_scripts/dns_add_cpanel
 DNS_DEL_COMMAND=/home/root/getssl/dns_scripts/dns_del_cpanel
 ```
 
+## PowerDNS
+
+PowerDNS users can either use the existing MySQL helper scripts or the HTTP
+API helper scripts in `dns_scripts/PowerDNS-API-README.md`.
+
+If you installed only `/usr/local/bin/getssl`, remember to copy the helper
+scripts to a local directory first, for example:
+
+```sh
+install -d /usr/local/share/getssl/dns_scripts
+install -m 755 dns_scripts/dns_add_pdns-api /usr/local/share/getssl/dns_scripts/
+install -m 755 dns_scripts/dns_del_pdns-api /usr/local/share/getssl/dns_scripts/
+```
+
+and then reference them in your `getssl.cfg`:
+
+```sh
+DNS_ADD_COMMAND="/usr/local/share/getssl/dns_scripts/dns_add_pdns-api"
+DNS_DEL_COMMAND="/usr/local/share/getssl/dns_scripts/dns_del_pdns-api"
+```
 
 ## ISPConfig
 
@@ -717,6 +752,7 @@ for dir in *_scripts; do install -dv /root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_
 'dns_scripts/DNS_IONOS.md' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/DNS_IONOS.md'
 'dns_scripts/DNS_ROUTE53.md' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/DNS_ROUTE53.md'
 'dns_scripts/GoDaddy-README.txt' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/GoDaddy-README.txt'
+'dns_scripts/PowerDNS-API-README.md' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/PowerDNS-API-README.md'
 'dns_scripts/dns_add_acmedns' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_add_acmedns'
 'dns_scripts/dns_add_azure' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_add_azure'
 'dns_scripts/dns_add_challtestsrv' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_add_challtestsrv'
@@ -737,6 +773,7 @@ for dir in *_scripts; do install -dv /root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_
 'dns_scripts/dns_add_manual' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_add_manual'
 'dns_scripts/dns_add_nsupdate' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_add_nsupdate'
 'dns_scripts/dns_add_ovh' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_add_ovh'
+'dns_scripts/dns_add_pdns-api' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_add_pdns-api'
 'dns_scripts/dns_add_pdns-mysql' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_add_pdns-mysql'
 'dns_scripts/dns_add_vultr' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_add_vultr'
 'dns_scripts/dns_add_windows_dns_server' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_add_windows_dns_server'
@@ -759,6 +796,7 @@ for dir in *_scripts; do install -dv /root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_
 'dns_scripts/dns_del_manual' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_del_manual'
 'dns_scripts/dns_del_nsupdate' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_del_nsupdate'
 'dns_scripts/dns_del_ovh' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_del_ovh'
+'dns_scripts/dns_del_pdns-api' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_del_pdns-api'
 'dns_scripts/dns_del_pdns-mysql' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_del_pdns-mysql'
 'dns_scripts/dns_del_vultr' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_del_vultr'
 'dns_scripts/dns_del_windows_dns_server' -> '/root/rpmbuild/BUILDROOT/getssl-2.49-1.x86_64/usr/share/getssl/dns_scripts/dns_del_windows_dns_server'
@@ -864,6 +902,7 @@ for dir in *_scripts; do install -dv /root/debbuild/BUILDROOT/getssl-2.49-1.amd6
 'dns_scripts/DNS_IONOS.md' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/DNS_IONOS.md'
 'dns_scripts/DNS_ROUTE53.md' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/DNS_ROUTE53.md'
 'dns_scripts/GoDaddy-README.txt' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/GoDaddy-README.txt'
+'dns_scripts/PowerDNS-API-README.md' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/PowerDNS-API-README.md'
 'dns_scripts/dns_add_acmedns' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_add_acmedns'
 'dns_scripts/dns_add_azure' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_add_azure'
 'dns_scripts/dns_add_challtestsrv' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_add_challtestsrv'
@@ -884,6 +923,7 @@ for dir in *_scripts; do install -dv /root/debbuild/BUILDROOT/getssl-2.49-1.amd6
 'dns_scripts/dns_add_manual' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_add_manual'
 'dns_scripts/dns_add_nsupdate' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_add_nsupdate'
 'dns_scripts/dns_add_ovh' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_add_ovh'
+'dns_scripts/dns_add_pdns-api' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_add_pdns-api'
 'dns_scripts/dns_add_pdns-mysql' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_add_pdns-mysql'
 'dns_scripts/dns_add_vultr' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_add_vultr'
 'dns_scripts/dns_add_windows_dns_server' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_add_windows_dns_server'
@@ -906,6 +946,7 @@ for dir in *_scripts; do install -dv /root/debbuild/BUILDROOT/getssl-2.49-1.amd6
 'dns_scripts/dns_del_manual' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_del_manual'
 'dns_scripts/dns_del_nsupdate' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_del_nsupdate'
 'dns_scripts/dns_del_ovh' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_del_ovh'
+'dns_scripts/dns_del_pdns-api' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_del_pdns-api'
 'dns_scripts/dns_del_pdns-mysql' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_del_pdns-mysql'
 'dns_scripts/dns_del_vultr' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_del_vultr'
 'dns_scripts/dns_del_windows_dns_server' -> '/root/debbuild/BUILDROOT/getssl-2.49-1.amd64/usr/share/getssl/dns_scripts/dns_del_windows_dns_server'
