@@ -147,7 +147,7 @@ elif [[ "$OS" == *"acmedns"* ]]; then
   STAGING="--env STAGING=true --env dynamic_dns=acmedns"
   GETSSL_OS="${OS%-acmedns}"
   if [ -n "$DYNU_API_KEY" ]; then
-    echo "Creating Dynu domains for $OS..."
+    echo "Creating Dynu domains for $OS ($ALIAS)..."
     add-dynu-domain "$ALIAS"
     add-dynu-domain "wild-$ALIAS"
     add-dynu-cname "_acme-challenge" "$ALIAS" "${ACMEDNS_SUBDOMAIN}.auth.acme-dns.io"

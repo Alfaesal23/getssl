@@ -78,7 +78,7 @@ jobs:
         run: docker compose up -d --build
       - name: Run test suite on Debian
         run: test/run-test.sh debian
-  test-rockylinux8:
+  test-rockylinux10:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6

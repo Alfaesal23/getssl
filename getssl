@@ -1522,6 +1522,13 @@ for d in "${alldomains[@]}"; do
     response=${AuthLinkResponse[$dn]}
     responseHeaders=${AuthLinkResponseHeader[$dn]}
     response_status=$(json_get "$response" status)
+    # Guard against empty/missing authorization response.
+    # This can happen if the ACME server returns an authorization link whose domain doesn't match exactly in create_order(), leaving AuthLinkResponse[$dn] unset.
+    if [[ "$response_status" == "json was blank" ]]; then
+      info "${DOMAIN}: $d: Authorization response is empty for domain index $dn (auth link may not have matched in create_order)"
+      debug "${DOMAIN}: $d: Authorization response is empty - AuthLinkResponse[$dn]=|${AuthLinkResponse[$dn]}| AuthLinkResponseHeader[$dn]=|${AuthLinkResponseHeader[$dn]}|"
+      return 1
+    fi
   fi
 
   if [[ $response_status == "valid" ]]; then
