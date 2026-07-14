@@ -299,6 +299,10 @@
 # 2026-06-15 Move loop_limit variable init to fix infinite loop (kenh)(#902)
 # 2026-06-17 Improve profile support (kenh)(#901)(2.51)
 # 2026-06-25 Improve CentOS 6 date support (combolek)(#907)
+# 2026-06-28 Fix issue #908 (allgeyer)(#909)
+# 2026-07-01 Update test OS versions, README, ARI tests (timkimber)(#910)
+# 2026-07-04 Change default key algorithm to ecdsa (timkimber)(#913)
+# 2026-07-07 Handle missing auth link response without failing (timkimber)(#911)(2.52)
 # ----------------------------------------------------------------------------------------
 
 case :$SHELLOPTS: in
@@ -307,7 +311,7 @@ esac
 
 PROGNAME=${0##*/}
 PROGDIR="$(cd "$(dirname "$0")" || exit; pwd -P;)"
-VERSION="2.51"
+VERSION="2.52"
 
 # defaults
 ACCOUNT_KEY_LENGTH=4096
