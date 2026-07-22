@@ -18,7 +18,8 @@ if [[ "$1" == "s_client" ]]; then
     sleep 60
     exit 1
 fi
-#export PATH="${PATH#/getssl/test:}"
+# Strip our own directory from PATH before finding real openssl
+export PATH="${PATH#/getssl/test:}"
 REAL_OPENSSL=$(command -v openssl)
 exec "$REAL_OPENSSL" "$@"
 MOCK_OPENSSL
@@ -27,10 +28,10 @@ MOCK_OPENSSL
 
 
 teardown_file() {
-   Clean up mock openssl
-   if [ -e /getssl/test/openssl ]; then
-     rm /getssl/test/openssl
-   fi
+    # Clean up mock openssl
+    if [ -e /getssl/test/openssl ]; then
+        rm /getssl/test/openssl
+    fi
 }
 
 
