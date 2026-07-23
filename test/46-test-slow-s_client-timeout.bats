@@ -57,20 +57,14 @@ teardown() {
         skip "Using staging server, skipping internal test"
     fi
 
-    # Make sure we have a clean state
-    # if [[ -d ${INSTALL_DIR}/.getssl ]]; then
-    #     rm -r ${INSTALL_DIR}/.getssl
-    # fi
-
     # Run getssl -c with a timeout to prevent the test itself from hanging.
     # timeout returns 124 if the command times out.
-    run timeout --signal=TERM 10 ${CODE_DIR}/getssl -d -c "$GETSSL_CMD_HOST"
+    run timeout -s TERM 10 ${CODE_DIR}/getssl -d -c "$GETSSL_CMD_HOST"
 
     # The test should NOT time out (exit code 124 means timeout).
-    # With the current code (no timeout on openssl s_client), the mock
-    # sleeps 60s and the timeout wrapper will kill getssl -> status 124.
-    # After the fix is applied, openssl s_client gets a timeout, the mock
-    # is killed quickly, and the test passes.
+    # Without the the "timeout 5" prefixing calls to "openssl s_client" the 
+    # mock will sleeps 60s and the openssl mock will return status 124.
+    # With the timeout prefix, getssl gets the timeout and the test passes
     refute [ "$status" -eq 124 ]
 
     # The command should succeed (exit code 0)
