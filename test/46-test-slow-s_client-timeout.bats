@@ -6,6 +6,10 @@ load '/getssl/test/test_helper.bash'
 
 
 setup_file() {
+    if [ -n "$STAGING" ]; then
+        skip "Using staging server, skipping internal test"
+    fi
+
     # Create a mock openssl that intercepts s_client calls to simulate a hung
     # connection. The real openssl s_client has no default connect timeout, so
     # connecting to a firewalled host can hang for ~2 minutes.
